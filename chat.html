@@ -23,22 +23,22 @@
 
     <main class="container">
         <section class="chat-selection-section">
-            <h2>💬 채팅 문의 (급X / 올림픽)</h2>
+            <h2>💬 채팅 문의 채널 선택</h2>
+            <p>문의하시려는 테마를 선택해 주세요. 해당 매장의 담당 상담원에게 연결됩니다.</p>
             
-            <div class="chat-content-box">
-                <p style="font-size: 1.1em; font-weight: bold; color: #7A4C9B;">
-                    현재 고객님께서는 급X와 올림픽 매장의 통합 채팅 채널에 접속하셨습니다.
-                </p>
-                <p>
-                    문의하시려는 테마가 급X인지 올림픽인지 채팅 시작 후 상담원에게 말씀해 주시면, 해당 담당자에게 **수동으로 연결**해 드립니다.
-                </p>
+            <div class="chat-buttons-container">
+                <a href="#" class="chat-button" onclick="setDepartment('급X')">
+                    급X 매장 문의
+                </a>
                 
-                <h3 style="margin-top: 30px;">채팅 시작 방법</h3>
-                <p style="font-size: 1.2em; color: red; font-weight: bold;">
-                    👉 화면 우측 하단에 떠 있는 **채팅 위젯**을 클릭하여 바로 대화를 시작해 주세요!
-                </p>
-
+                <a href="#" class="chat-button" onclick="setDepartment('올림픽')">
+                    올림픽 매장 문의
+                </a>
             </div>
+            
+            <p style="margin-top: 30px; font-weight: bold;">
+                <span id="chat-guide-message" style="color: #7A4C9B;">👆 위에 버튼을 눌러 먼저 상담 채널을 지정해 주세요.</span>
+            </p>
 
         </section>
     </main>
@@ -46,6 +46,33 @@
     <footer class="main-footer">
         <p>© 2025 스피키지. All Rights Reserved.</p>
     </footer>
+
+    <script>
+        // ⚠️ Tawk.to 부서를 설정하고 안내 메시지를 업데이트하는 함수 (에러 메시지 제거)
+        function setDepartment(departmentName) {
+            var guide = document.getElementById('chat-guide-message');
+
+            if(typeof Tawk_API !== 'undefined' && Tawk_API.setDepartment) {
+                
+                // 1. 부서 지정만 시도 (가장 안정적)
+                Tawk_API.setDepartment(departmentName, function() {
+                    // 지정이 성공적으로 시도되면 안내 메시지 변경
+                    guide.innerHTML = "✅ **'" + departmentName + "'** 채널로 지정되었습니다. 우측 하단 위젯을 클릭하여 채팅을 시작해 주세요!";
+                    guide.style.color = 'green';
+                });
+                
+            } else {
+                // Tawk.to API 로드 실패 시, 부서 지정은 포기하고 일반 채팅 시작 안내
+                guide.innerHTML = "❗ Tawk.to 시스템 로딩 지연. 잠시 후 우측 하단 위젯을 클릭하여 대화를 시작해 주시고, 상담원에게 희망 채널을 말씀해 주세요.";
+                guide.style.color = 'orange';
+                
+                // 위젯은 띄워져 있을 것이므로, 채팅창을 강제로 열어줍니다. (안전 장치)
+                if(typeof Tawk_API !== 'undefined' && Tawk_API.toggle) {
+                    Tawk_API.toggle();
+                }
+            }
+        }
+    </script>
 
     <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
