@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+     <title>스피키지 - 결제 및 소통 채널</title>
+    <link rel="stylesheet" href="style.css"> 
+</head>
+<body>
+
+    <header class="main-header">
+        <div class="logo-area">
+            <h1>스피키지</h1>
+        </div>
+        <nav class="main-nav">
+            <ul>
+                <li><a href="index.html">메인</a></li>
+                <li><a href="payment_board.html">개인 결제</a></li>
+                <li><a href="chat.html">채팅 문의</a></li> 
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="chat-selection-section">
+            <h2>💬 채팅 문의 채널 선택</h2>
+            <p>궁금한 내용을 아래 두 채널 중 하나를 선택하여 문의해주세요. 고객센터 운영 시간에 순차적으로 답변드립니다.</p>
+            
+            <div class="chat-buttons-container">
+                <a href="#" class="chat-button" onclick="openChatDepartment('급X')">
+                    급X 매장 문의 (채팅 시작)
+                </a>
+                
+                <a href="#" class="chat-button" onclick="openChatDepartment('올림픽')">
+                    올림픽 매장 문의 (채팅 시작)
+                </a>
+            </div>
+
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <p>© 2025 스피키지. All Rights Reserved.</p>
+    </footer>
+
+    <script>
+        // 버튼 클릭 시 실행되는 함수
+        function openChatDepartment(departmentName) {
+            // Tawk.to 위젯(Tawk_API)이 로드되었는지 확인합니다.
+            if(typeof Tawk_API !== 'undefined' && Tawk_API.setDepartment) {
+                
+                // 1. 부서 설정: 고객이 선택한 부서로 채팅 연결 시도
+                // ⚠️ Tawk.to 관리자 페이지에서 설정한 '부서 이름'과 정확히 일치해야 합니다.
+                Tawk_API.setDepartment(departmentName, function() {});
+                
+                // 2. 채팅창 열기
+                Tawk_API.toggle();
+            } else {
+                // 위젯 로딩 실패 시 알림
+                alert("채팅 위젯 로딩 중입니다. 잠시 후 다시 시도해 주세요.");
+            }
+        }
+    </script>
+<!--Start of Tawk.to Script-->
+<script type="text/javascript">
+var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+(function(){
+var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+s1.async=true;
+s1.src='https://embed.tawk.to/689442294ff1c5192bcfeb3f/1j21i4sn6';
+s1.charset='UTF-8';
+s1.setAttribute('crossorigin','*');
+s0.parentNode.insertBefore(s1,s0);
+})();
+</script>
+<!--End of Tawk.to Script-->
+</body>
+</html>
