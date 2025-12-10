@@ -47,29 +47,34 @@
         <p>© 2025 스피키지. All Rights Reserved.</p>
     </footer>
 
-    <script>
-        // ⚠️ Tawk.to 부서를 설정하고 고객에게 알림을 주는 함수
-        function setDepartmentAndGuide(departmentName) {
-            var guide = document.getElementById('chat-guide-message');
+   <script>
+    // ⚠️ Tawk.to 부서를 설정하고 고객에게 알림을 주는 함수 (안정성 강화 버전)
+    function setDepartmentAndGuide(departmentName) {
+        var guide = document.getElementById('chat-guide-message');
 
-            if(typeof Tawk_API !== 'undefined' && Tawk_API.setDepartment) {
-                
-                // 1. 부서 지정
-                Tawk_API.setDepartment(departmentName, function() {
-                    // 부서 지정 성공 후 메시지 변경
-                    guide.innerHTML = "✅ **'" + departmentName + "'** 채널이 선택되었습니다. 우측 하단 위젯을 클릭하여 채팅을 시작해 주세요.";
-                    guide.style.color = 'green';
-                });
-                
-                // 2. 채팅창이 자동으로 열리지 않게 합니다. (오류 방지)
-                // 대신 고객이 우측 하단의 위젯을 클릭하도록 유도합니다.
+        // 1. Tawk.to API가 로드되었는지 확인
+        if(typeof Tawk_API !== 'undefined' && Tawk_API.setDepartment) {
+            
+            // 2. 부서 지정
+            Tawk_API.setDepartment(departmentName, function() {
+                // 부서 지정 성공 후 메시지 변경 (지연 없이 즉시 반영)
+            });
+            
+            // 3. 부서 지정 여부와 관계없이 메시지는 즉시 표시
+            guide.innerHTML = "✅ **'" + departmentName + "'** 채널이 선택되었습니다. 우측 하단 위젯을 클릭하여 채팅을 시작해 주세요.";
+            guide.style.color = 'green';
+            
 
+        } else {
+            // Tawk.to 로딩 실패 시, 안내 메시지를 띄우지 않고 위젯만 열어보도록 시도
+            if(typeof Tawk_API !== 'undefined' && Tawk_API.toggle) {
+                Tawk_API.toggle();
             } else {
-                // Tawk.to 로딩 실패 시
                 alert("채팅 시스템 로딩 중입니다. 잠시 기다린 후 다시 시도해 주세요.");
             }
         }
-    </script>
+    }
+</script>
 
     <script type="text/javascript">
     var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
@@ -84,3 +89,4 @@
     </script>
     </body>
 </html>
+
